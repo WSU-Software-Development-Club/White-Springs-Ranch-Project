@@ -1,0 +1,13 @@
+{
+  "name": "ocr-electron-app",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "concurrently \"npm run angular\" \"npm run electron\"",
+    "angular": "cd frontend && ng serve",
+    "electron": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "concurrently": "^8.0.0"
+  }
+}
