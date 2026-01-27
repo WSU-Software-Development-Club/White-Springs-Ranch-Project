@@ -6,3 +6,6 @@
 
 ## Python
 1. There is a working example here, follow directions in backend dir.
+
+# Fixing issues!
+When you want to work on an issue, create a branch named <issue> -<your name>. This will allow everyone to see you are working on the issue and see your progress. Commit to your branch regularly and sumbit a pull request when you are done.
