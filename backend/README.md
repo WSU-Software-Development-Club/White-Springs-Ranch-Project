@@ -1,5 +1,5 @@
 ### Setup (Windows)
-This project uses electron to facilitate startup normally, but for development, you can send messages stroight to FastAPI without having to use the front end code.
+This project will use electron to facilitate startup normally, but for development, you can send messages stroight to FastAPI without having to use the front end code.
 
 1. To start you need to make a .venv inside of the backend dir to install the dependencies Do this with `python -m venv vnev`
 
@@ -9,4 +9,4 @@ This project uses electron to facilitate startup normally, but for development, 
 
 4. Now you are ready to run the python script. Run `uvicorn main:app --reload --port 8000`
 
-5.  You may notice a problem, you might not have the key to use the API. This uses a google cloud vision OCR service key. Lookup how to make one, or ask Jake for his. You probably need to go to google clouds website, create a project, enable Cloud Vision, make a service account for that project, then select keys and generate one. DO NOT PUT ANY KEYS ON GITHUB. Git gaurdian will disable the key if you do. To use the key you need to set an envitoment variable with the path to the key (Windows) `$env:GOOGLE_APPLICATION_CREDENTIALS="C:\Users\jkchu\Downloads\wsr-ocr-3d9a3fabebfc.json"` The key should be downloaded from google as a json file
+5.  You may notice a problem, you might not have the key to use the API. This uses a google cloud vision OCR service key. Lookup how to make one, or ask Jake for his. You probably need to go to google clouds website, create a project, enable Cloud Vision, make a service account for that project, then select keys and generate one. DO NOT PUT ANY KEYS ON GITHUB. Git gaurdian will disable the key if you do. To use the key you need to set an envitoment variable with the path to the key (Windows) `$env:GOOGLE_APPLICATION_CREDENTIALS="C:\Path\To\Key"` The key should be downloaded from google as a json file
