@@ -4,8 +4,8 @@ This project will use electron to facilitate startup normally, but for developme
 1. To start you need to make a .venv inside of the backend dir to install the dependencies. Do this with `python -m venv vnev`
 
 3. Open a terminal window in the backend directory and depending on your operating system, enter the following command:
-   Windows: Now open a terminal window in the back end directory and run `./.venv/Scripts/activate`
-   MacOS: `source venv/bin/activate`
+   * Windows: `./.venv/Scripts/activate`
+   * MacOS: `source venv/bin/activate`
 
 5. Now install dependencies with `pip install -r requirements.txt`
 
