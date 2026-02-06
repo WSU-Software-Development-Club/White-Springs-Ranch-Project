@@ -54,9 +54,9 @@ This SHOULD open Electron desktop window, but it does not. Thats on the fix list
 
 This single command:
 - ✅ Starts Angular dev server (`http://localhost:4200`)
-- ✅ Create a .venv if you dont have one, or activate your pre existing one.
+- ✅ Creates a .venv if you dont have one, or activate your pre existing one.
 - ✅ Starts Python FastAPI backend (`http://127.0.0.1:8000`)
-- ✅ Enables hot reload for both Angular and Python
+- ✅ Enables hot reload for Angular
 
 
 To test python, run:
