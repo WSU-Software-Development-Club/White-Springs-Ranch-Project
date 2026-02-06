@@ -99,7 +99,7 @@ set NODE_ENV=development
 npm run electron
 ```
 
-Mac/Linux/PowerShell:
+Mac/Linux/PowerShell (untested):
 ```bash
 export NODE_ENV=development
 npm run electron
