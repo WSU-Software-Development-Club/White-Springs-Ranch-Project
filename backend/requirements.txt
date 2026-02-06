@@ -1,5 +1,0 @@
-fastapi
-uvicorn
-python-docx
-google-cloud-vision
-python-multipart
