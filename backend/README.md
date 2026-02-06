@@ -1,7 +1,7 @@
 ### Setup (Windows & Mac)
 This project will use electron to facilitate startup normally, but for development, you can send messages stroight to FastAPI without having to use the front end code.
 
-1. To start you need to make a .venv inside of the backend dir to install the dependencies. Do this with `python -m venv vnev`
+1. To start you need to make a .venv inside of the backend dir to install the dependencies. Do this with `python -m venv .venv`
 
 3. Open a terminal window in the backend directory and depending on your operating system, enter the following command:
    * Windows: `./.venv/Scripts/activate`
