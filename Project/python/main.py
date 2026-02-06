@@ -5,6 +5,8 @@ from docx import Document
 import uuid
 import os
 
+print("Listening on port 8080...")
+
 app = FastAPI()
 client = vision.ImageAnnotatorClient()
 

@@ -1,59 +1,107 @@
-# Frontend
+# White Springs Ranch - File Upload Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+A desktop application built with Angular, Electron, and Python FastAPI for secure file uploads.
 
-## Development server
 
-To start a local development server, run:
+## Prerequisites (dev)
 
+### Required
+- **Node.js** (v18 or higher) - [Download](https://nodejs.org/)
+- **npm** (comes with Node.js)
+- **Python** (3.8 or higher) - [Download](https://www.python.org/)
+- **pip** (comes with Python)
+
+### Verify installations
 ```bash
-npm run serve
+node --version
+npm --version
+python --version
+pip --version
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Project Structure
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+```
+white-springs-ranch/Project
+├── electron.js              # Electron main process
+├── package.json             # Node.js dependencies and scripts
+├── angular.json             # Angular configuration
+├── src/                     # Angular frontend source
+│   ├── app/
+│   │   ├── components/
+│   │   │   └── file-upload/
+│   │   ├── app.ts
+│   │   ├── app.html
+│   │   ├── app.css
+│   │   └── app.config.ts
+│   └── main.ts
+├── python/                  # Python backend
+│   ├── main.py             # FastAPI application
+│   └── requirements.txt    # Python dependencies
+└── README.md
+
+
+## Development
+
+### Option 1: Run Everything Together
+
+- Install electron `npm install --save-dev electron` 
 
 ```bash
-npx ng generate component component-name
+npm run electron:dev
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+This SHOULD open Electron desktop window, but it does not. Thats on the fix list.  
+
+This single command:
+- ✅ Starts Angular dev server (`http://localhost:4200`)
+- ✅ Create a .venv if you dont have one, or activate your pre existing one.
+- ✅ Starts Python FastAPI backend (`http://127.0.0.1:8000`)
+- ✅ Enables hot reload for both Angular and Python
+
+
+To test python, run:
+`
+curl.exe -X POST `
+  http://127.0.0.1:8000/ocr `
+  -F "file=@C:\Users\jkchu\dev\White-Springs-Ranch-Project\Project\Sample-Images\goodsample2.jpg" `
+`
+(The backticks are important for windows), Linux/Mac you need to use a different command. Look in souce
+file if the backticks arent showing up in readme because of markdown format.
+
+### Option 2: Run Components Separately (For Debugging)
+
+Useful when you need to debug specific parts or restart individual services.
+
+**Terminal 1 - Angular:**
+```bash
+ng serve
+```
+
+**Terminal 2 - Python Backend:**
+
+Start venv (instructions above)
 
 ```bash
-npx ng generate --help
+cd python
+python -m uvicorn main:app --reload --port 8000
 ```
 
-## Building
+**Terminal 3 - Electron:** (not working currently)
 
-To build the project run:
+Electron on its own does nothing.  
 
+Windows CMD:
 ```bash
-npm run build
+set NODE_ENV=development
+npm run electron
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
+Mac/Linux/PowerShell:
 ```bash
-npx ng test
+export NODE_ENV=development
+npm run electron
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-npx ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
