@@ -1,12 +1,26 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, HostListener } from '@angular/core';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [FileUploadComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('frontend');
+  title = 'File Upload Application';
+
+  // Prevent default drag and drop behavior on the entire page
+  @HostListener('window:dragover', ['$event'])
+  onWindowDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  @HostListener('window:drop', ['$event'])
+  onWindowDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 }
