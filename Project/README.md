@@ -45,7 +45,7 @@ white-springs-ranch/Project
 ### Option 1: Run Everything Together
 
 - Install electron ```npm install --save-dev electron```
-
+- Run with electron
 ```bash
 npm run electron:dev
 ```
