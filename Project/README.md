@@ -41,13 +41,13 @@ white-springs-ranch/Project
 │   ├── main.py             # FastAPI application
 │   └── requirements.txt    # Python dependencies
 └── README.md
-
+```
 
 ## Development
 
 ### Option 1: Run Everything Together
 
-- Install electron `npm install --save-dev electron` 
+- Install electron ```npm install --save-dev electron```
 
 ```bash
 npm run electron:dev
@@ -63,11 +63,11 @@ This single command:
 
 
 To test python, run:
-`
+```
 curl.exe -X POST `
   http://127.0.0.1:8000/ocr `
   -F "file=@C:\Users\jkchu\dev\White-Springs-Ranch-Project\Project\Sample-Images\goodsample2.jpg" `
-`
+```
 (The backticks are important for windows), Linux/Mac you need to use a different command. Look in souce
 file if the backticks arent showing up in readme because of markdown format.
 
