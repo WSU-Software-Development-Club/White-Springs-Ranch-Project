@@ -1,13 +1,40 @@
 {
   "name": "frontend",
   "version": "0.0.0",
+  "main": "electron.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:frontend": "node dist/frontend/server/server.mjs"
+    "serve:ssr:frontend": "node dist/frontend/server/server.mjs",
+    "electron": "electron .",
+    "electron:dev": "concurrently \"npm start\" \"wait-on http://localhost:4200 && cross-env NODE_ENV=development electron .\"",
+    "electron:build": "ng build --configuration production && electron-builder"
+  },
+  "build": {
+    "appId": "com.whitespringesranch.fileupload",
+    "productName": "White Springs File Upload",
+    "directories": {
+      "output": "electron-dist"
+    },
+    "files": [
+      "dist/frontend/browser/**/*",
+      "electron.js"
+    ],
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "src/favicon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "src/favicon.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility"
+    }
   },
   "prettier": {
     "printWidth": 100,
@@ -43,8 +70,13 @@
     "@angular/compiler-cli": "^21.1.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^40.2.1",
+    "electron-builder": "^26.7.0",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "wait-on": "^9.0.3"
   }
 }
