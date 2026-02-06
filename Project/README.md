@@ -1,7 +1,4 @@
-# White Springs Ranch - File Upload Application
-
-A desktop application built with Angular, Electron, and Python FastAPI for secure file uploads.
-
+# White Springs Ranch Project
 
 ## Prerequisites (dev)
 
