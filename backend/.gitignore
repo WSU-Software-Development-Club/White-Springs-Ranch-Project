@@ -1,0 +1,3 @@
+__pycache__/
+
+# not adding .venv cause it auto generates a gitignore :)
