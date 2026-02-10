@@ -1,7 +1,8 @@
 {
   "name": "frontend",
   "version": "0.0.0",
-  "main": "electron.js",
+  "main": "main.js",
+  "type": "module",
   "scripts": {
     "start:frontend": "ng serve",
     "start:python": "powershell -Command \"if (-Not (Test-Path '.\\python\\venv')) { python -m venv .\\python\\venv; & .\\python\\venv\\Scripts\\pip.exe install --upgrade pip; & .\\python\\venv\\Scripts\\pip.exe install -r .\\python\\requirements.txt }; & .\\python\\venv\\Scripts\\python.exe -m uvicorn python.main:app --reload --port 8000\"",

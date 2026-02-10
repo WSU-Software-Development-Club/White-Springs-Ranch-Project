@@ -1,14 +1,15 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
-const url = require('url');
-const { spawn } = require('child_process');
+import { app, BrowserWindow } from 'electron';
+import { join, dirname } from 'path';
+import { fileURLToPath, format } from 'url';
+import { spawn } from 'child_process';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 let mainWindow;
 let pythonProcess;
 
 function startPythonProcess() {
   // Path to your Python backend directory
-  const pythonBackendPath = path.join('python');
+  const pythonBackendPath = join('python');
   
   // For uvicorn, we need to run it as a module
   // Adjust the app path based on your FastAPI/ASGI app structure
@@ -87,8 +88,8 @@ function createWindow() {
   } else {
     // Production: load from built files
     mainWindow.loadURL(
-      url.format({
-        pathname: path.join(__dirname, 'dist/frontend/browser/index.html'),
+      format({
+        pathname: join(__dirname, 'dist/frontend/browser/index.html'),
         protocol: 'file:',
         slashes: true
       })
