@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-file-upload',
@@ -12,6 +13,12 @@ export class FileUploadComponent {
   selectedFile: File | null = null;
   isDragging = false;
   errorMessage: string = '';
+  isUploading = false;
+  uploadSuccess = false;
+
+  private apiUrl = 'http://127.0.0.1:8000';  // Python FastAPI backend
+
+  constructor(private http: HttpClient) {}
 
   // Accepted file types with size limits (in bytes)
   private acceptedTypes = {
@@ -89,16 +96,18 @@ export class FileUploadComponent {
 
   onSend(): void {
     if (this.selectedFile) {
-      console.log('Sending file:', this.selectedFile.name);
-      
-      // Here you would typically upload the file to your backend
-      // Example:
-      // const formData = new FormData();
-      // formData.append('file', this.selectedFile);
-      // this.http.post('your-api-endpoint', formData).subscribe(...)
-      
-      // For now, just logging
-      alert(`File "${this.selectedFile.name}" ready to send!`);
+      this.isUploading = true;
+      this.uploadSuccess = false;
+      this.errorMessage = '';
+
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+
+      console.log('Uploading file:', this.selectedFile.name);
+
+      alert(`File "${this.selectedFile?.name}" has been uploaded. To send this to python, ` +
+         `edit the code at "Project/src/app/components/file-upload/file-upload.component.ts"`+
+         `line 108.`);
     } else {
       alert('Please select a file first');
     }
@@ -107,5 +116,6 @@ export class FileUploadComponent {
   removeFile(): void {
     this.selectedFile = null;
     this.errorMessage = '';
+    this.uploadSuccess = false;
   }
 }
