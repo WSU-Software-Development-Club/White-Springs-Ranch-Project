@@ -6,7 +6,7 @@
   "scripts": {
     "start:frontend": "ng serve",
     "start:python": "powershell -Command \"if (-Not (Test-Path '.\\python\\venv')) { python -m venv .\\python\\venv; & .\\python\\venv\\Scripts\\pip.exe install --upgrade pip; & .\\python\\venv\\Scripts\\pip.exe install -r .\\python\\requirements.txt }; & .\\python\\venv\\Scripts\\python.exe -m uvicorn python.main:app --reload --port 8000\"",
-    "start:electron": "wait-on http://localhost:4200 && cross-env NODE_ENV=development npx electron .",
+    "start:electron": "wait-on http://localhost:4200 && cross-env NODE_ENV=development SKIP_PYTHON_SPAWN=1 npx electron .",
     "electron:dev": "concurrently \"npm run start:frontend\" \"npm run start:python\" \"npm run start:electron\""
   },
   "build": {

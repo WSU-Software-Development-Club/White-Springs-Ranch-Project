@@ -8,6 +8,7 @@
     (drop)="onDrop($event)">
     
     <div *ngIf="!selectedFile" class="drop-zone-content">
+      <div *ngIf="uploadSuccess" class="success-message">OCR complete! ocr_result.docx has been downloaded.</div>
       <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
       </svg>
@@ -34,8 +35,10 @@
       <div class="file-info">
         <p class="file-name">{{ selectedFile.name }}</p>
         <p class="file-size">{{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
+        <div *ngIf="isUploading" class="upload-status">Processing OCR...</div>
+        <div *ngIf="errorMessage && !isUploading" class="error-message">{{ errorMessage }}</div>
       </div>
-      <button class="remove-button" (click)="removeFile()" type="button">
+      <button class="remove-button" (click)="removeFile()" type="button" [disabled]="isUploading">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -45,8 +48,8 @@
 
   <button 
     class="send-button"
-    [disabled]="!selectedFile"
+    [disabled]="!selectedFile || isUploading"
     (click)="onSend()">
-    Send
+    {{ isUploading ? 'Processing...' : 'Send' }}
   </button>
 </div>

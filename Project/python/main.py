@@ -1,13 +1,20 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from google.cloud import vision
 from docx import Document
 import uuid
 import os
 
-print("Listening on port 8080...")
-
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200", "http://127.0.0.1:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 client = vision.ImageAnnotatorClient()
 
 OUTPUT_DIR = "output"

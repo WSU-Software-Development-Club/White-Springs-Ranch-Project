@@ -72,6 +72,7 @@ export class FileUploadComponent {
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
       const file = files[0];
+      this.uploadSuccess = false;
       if (this.validateFile(file)) {
         this.selectedFile = file;
       } else {
@@ -84,33 +85,69 @@ export class FileUploadComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
+      this.uploadSuccess = false;
       if (this.validateFile(file)) {
         this.selectedFile = file;
       } else {
         this.selectedFile = null;
-        // Reset the input
         input.value = '';
       }
     }
   }
 
   onSend(): void {
-    if (this.selectedFile) {
-      this.isUploading = true;
-      this.uploadSuccess = false;
-      this.errorMessage = '';
-
-      const formData = new FormData();
-      formData.append('file', this.selectedFile);
-
-      console.log('Uploading file:', this.selectedFile.name);
-
-      alert(`File "${this.selectedFile?.name}" has been uploaded. To send this to python, ` +
-         `edit the code at "Project/src/app/components/file-upload/file-upload.component.ts"`+
-         `line 108.`);
-    } else {
-      alert('Please select a file first');
+    if (!this.selectedFile) {
+      this.errorMessage = 'Please select a file first';
+      return;
     }
+
+    this.isUploading = true;
+    this.uploadSuccess = false;
+    this.errorMessage = '';
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    this.http
+      .post(`${this.apiUrl}/ocr`, formData, {
+        responseType: 'blob'
+      })
+      .subscribe({
+        next: (blob) => {
+          this.isUploading = false;
+          this.uploadSuccess = true;
+          this.downloadBlob(blob, 'ocr_result.docx');
+          this.selectedFile = null;
+        },
+        error: (err) => {
+          this.isUploading = false;
+          this.uploadSuccess = false;
+          if (err.error instanceof Blob) {
+            err.error.text().then((text: string) => {
+              try {
+                const json = JSON.parse(text);
+                this.errorMessage = json.detail?.toString() ?? text;
+              } catch {
+                this.errorMessage = text || err.message || 'Upload failed.';
+              }
+            });
+          } else {
+            this.errorMessage =
+              err.error?.detail?.toString() ??
+              err.message ??
+              'Upload failed. Make sure the Python backend is running on port 8000.';
+          }
+        }
+      });
+  }
+
+  private downloadBlob(blob: Blob, filename: string): void {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
   removeFile(): void {

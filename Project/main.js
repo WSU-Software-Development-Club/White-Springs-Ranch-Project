@@ -2,27 +2,36 @@ import { app, BrowserWindow } from 'electron';
 import { join, dirname } from 'path';
 import { fileURLToPath, format } from 'url';
 import { spawn } from 'child_process';
+import { existsSync } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 let mainWindow;
 let pythonProcess;
 
 function startPythonProcess() {
-  // Path to your Python backend directory
-  const pythonBackendPath = join('python');
-  
-  // For uvicorn, we need to run it as a module
-  // Adjust the app path based on your FastAPI/ASGI app structure
-  // Example: if you have python/main.py with app = FastAPI(), use 'main:app'
-  const appModule = 'main:app';  // Change this to match your FastAPI app
-  const port = 8000;  // Change this to your desired port
+  const projectRoot = __dirname;
+  const pythonBackendPath = join(projectRoot, 'python');
+
+  // Prefer venv Python so google.cloud and other deps are available
+  const venvPythonWin = join(pythonBackendPath, 'venv', 'Scripts', 'python.exe');
+  const venvPythonUnix = join(pythonBackendPath, 'venv', 'bin', 'python');
+  const hasVenvWin = process.platform === 'win32' && existsSync(venvPythonWin);
+  const hasVenvUnix = process.platform !== 'win32' && existsSync(venvPythonUnix);
+
+  const pythonCommand = hasVenvWin
+    ? venvPythonWin
+    : hasVenvUnix
+      ? venvPythonUnix
+      : process.platform === 'win32'
+        ? 'python'
+        : 'python3';
+
+  const appModule = 'main:app';
+  const port = 8000;
 
   console.log('Starting Python backend with uvicorn...');
-  console.log('Backend path:', pythonBackendPath);
+  console.log('Python:', pythonCommand);
 
-  // Run uvicorn
-  // For development: uvicorn main:app --reload --port 8000
-  // For production: uvicorn main:app --port 8000
   const uvicornArgs = [
     '-m', 'uvicorn',
     appModule,
@@ -30,15 +39,12 @@ function startPythonProcess() {
     '--port', port.toString()
   ];
 
-  // Add --reload for development
   if (process.env.NODE_ENV === 'development') {
     uvicornArgs.push('--reload');
   }
 
-  const pythonCommand = process.platform === 'win32' ? 'python' : 'python3';
-
   pythonProcess = spawn(pythonCommand, uvicornArgs, {
-    cwd: pythonBackendPath  // Set working directory to python folder
+    cwd: pythonBackendPath
   });
 
   pythonProcess.stdout.on('data', (data) => {
@@ -103,7 +109,9 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-  startPythonProcess();
+  if (!process.env.SKIP_PYTHON_SPAWN) {
+    startPythonProcess();
+  }
   createWindow();
 });
 
