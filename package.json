@@ -1,0 +1,14 @@
+{
+  "name": "White-Springs-Ranch-Project",
+  "version": "1.0.0",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "concurrently \"npm run ng:serve\" \"wait-on http://localhost:4200 && electron .\"",
+    "ng:serve": "cd frontend && npx ng serve"
+},
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "electron": "^40.4.1",
+    "wait-on": "^9.0.4"
+  }
+}
